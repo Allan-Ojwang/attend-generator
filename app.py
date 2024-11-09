@@ -4,7 +4,11 @@ import base64
 from io import BytesIO
 
 # Set page title and layout
-st.set_page_config(page_title="PW Poster Generator", layout="wide")
+st.set_page_config(
+    page_title="PW Poster Generator",
+    layout="wide",
+    page_icon="pw.jpg"  # Option 3: Local file path to an icon image
+)
 
 # Load Poppins font from Google Fonts
 st.markdown(
