@@ -7,7 +7,7 @@ from io import BytesIO
 st.set_page_config(
     page_title="PW Poster Generator",
     layout="wide",
-    page_icon="pw.jpg"  # Option 3: Local file path to an icon image
+    page_icon="pw.jpg" 
 )
 
 # Load Poppins font from Google Fonts
@@ -80,7 +80,7 @@ def set_background_style():
 
         /* Custom height for the poster template image in col2 */
         .poster-image {
-            height: 300px; /* Set a specific height for the image */
+            height: 300px; 
             object-fit: contain;
             border-radius: 8px;
         }
@@ -93,11 +93,11 @@ def set_background_style():
 set_background_style()
 
 # Load the poster template
-poster_template_path = "poster_template.jpg"  # Update this with the path to your poster template
+poster_template_path = "poster_template.jpg"  
 poster_template = Image.open(poster_template_path)
 
 # Section: Event Poster and Details (Side-by-Side Layout)
-col1, col2 = st.columns([1, 1.5])  # Set width ratios
+col1, col2 = st.columns([1, 1.5])  
 
 with col1:
     st.markdown("### The Great Commission Gathering")
