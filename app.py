@@ -1,5 +1,5 @@
 import streamlit as st
-from PIL import Image, ImageOps, ImageResampling
+from PIL import Image, ImageOps
 import base64
 from io import BytesIO
 
@@ -111,7 +111,7 @@ poster_placeholder = col2.empty()
 # Function to resize and crop the uploaded image
 def resize_and_crop(image, target_width, target_height):
     # Resize image to fit within target dimensions while keeping aspect ratio
-    image = ImageOps.fit(image, (target_width, target_height), method=Image.Resampling.LANCZOS)
+    image = ImageOps.fit(image, (target_width, target_height), method=Image.LANCZOS)
     return image
 
 # Section: Upload Image
