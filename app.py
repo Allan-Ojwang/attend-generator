@@ -93,20 +93,36 @@ def set_background_style():
 set_background_style()
 
 # Load the poster template
-poster_template_path = "template.jpg"
+poster_template_path = "/mnt/data/file-xkkfxDtCfUMJuS2ktuzVaWBP"  # Update with the correct path
 poster_template = Image.open(poster_template_path)
 
 # Section: Event Poster and Details (Side-by-Side Layout)
 col1, col2 = st.columns([1, 1.5])
 
 with col1:
-    st.markdown("### The Great Commission Gathering" )
+    st.markdown("### The Great Commission Gathering")
     st.subheader("Personalize your Poster")
     st.write("Make this poster your own by adding an image.")
     st.write("Nov 23, 10:00 AM")
 
 # Placeholder for the final poster preview in col2
 poster_placeholder = col2.empty()
+
+# Function to resize the uploaded image
+def resize_image(image, target_width, target_height):
+    image_ratio = image.width / image.height
+    target_ratio = target_width / target_height
+
+    if image_ratio > target_ratio:
+        # Image is wider than the target area
+        new_width = target_width
+        new_height = int(target_width / image_ratio)
+    else:
+        # Image is taller than the target area
+        new_width = int(target_height * image_ratio)
+        new_height = target_height
+
+    return image.resize((new_width, new_height))
 
 # Section: Upload Image
 uploaded_file = st.file_uploader("Add a photo that represents you or your brand. Images should be high resolution for best results.", type=["jpg", "jpeg", "png"])
@@ -116,10 +132,14 @@ if uploaded_file:
     # Open and process the uploaded image
     user_photo = Image.open(uploaded_file)
 
+    # Resize user image to fit within a defined target area on the poster
+    target_width, target_height = 150, 200  # Adjust based on the template's space for the image
+    resized_photo = resize_image(user_photo, target_width, target_height)
+
     # Combine user image with the poster template
     final_poster = poster_template.copy()
-    position = (129, 121)  # Adjust position as needed
-    final_poster.paste(user_photo, position)
+    position = (129, 121)  # Adjust the position based on where you want to place the image on the template
+    final_poster.paste(resized_photo, position)
 
     # Save final poster to BytesIO for previewing and downloading
     buffered = BytesIO()
@@ -147,4 +167,4 @@ else:
     poster_placeholder.markdown(
         f'<img class="poster-image" src="data:image/jpg;base64,{base64.b64encode(open(poster_template_path, "rb").read()).decode()}" alt="Event Poster">',
         unsafe_allow_html=True,
-    )
+)
