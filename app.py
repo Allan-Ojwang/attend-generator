@@ -96,6 +96,10 @@ set_background_style()
 poster_template_path = "template.jpg"
 poster_template = Image.open(poster_template_path)
 
+# Load the cloud image
+cloud_image_path = "cloud.png"
+cloud_image = Image.open(cloud_image_path)
+
 # Section: Event Poster and Details (Side-by-Side Layout)
 col1, col2 = st.columns([1, 1.5])
 
@@ -137,10 +141,20 @@ if uploaded_file:
     target_width, target_height = 450, 350  # Adjust based on the template's space for the image
     resized_photo = resize_image(user_photo, target_width, target_height)
 
+    # Resize the cloud image
+    cloud_width, cloud_height = 650, 20
+    resized_cloud = cloud_image.resize((cloud_width, cloud_height))
+
     # Combine user image with the poster template
     final_poster = poster_template.copy()
-    position = (140, 140)  # Adjust the position based on where you want to place the image on the template
+
+    # Shift user image 10px to the left and place it
+    position = (140 - 10, 140)  # Adjust the position to shift 10 pixels left
     final_poster.paste(resized_photo, position, resized_photo.convert('RGBA'))
+
+    # Position the cloud image below the user image
+    cloud_position = (position[0], position[1] + target_height)  # Place cloud below the uploaded image
+    final_poster.paste(resized_cloud, cloud_position, resized_cloud.convert('RGBA'))
 
     # Save final poster to BytesIO for previewing and downloading
     buffered = BytesIO()
