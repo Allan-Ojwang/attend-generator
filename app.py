@@ -123,12 +123,12 @@ if uploaded_file:
     user_photo = Image.open(uploaded_file)
 
     # Resize user image to fit within a defined target area on the poster
-    target_width, target_height = 350, 400  # Adjust based on the template's space for the image
+    target_width, target_height = 650, 350  # Adjust based on the template's space for the image
     resized_photo = resize_image(user_photo, target_width, target_height)
 
     # Combine user image with the poster template
     final_poster = poster_template.copy()
-    position = (129, 121)  # Adjust the position based on where you want to place the image on the template
+    position = (140, 121)  # Adjust the position based on where you want to place the image on the template
     final_poster.paste(resized_photo, position, resized_photo.convert('RGBA'))
 
     # Save final poster to BytesIO for previewing and downloading
