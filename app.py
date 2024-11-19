@@ -108,11 +108,22 @@ with col1:
 # Placeholder for the final poster preview in col2
 poster_placeholder = col2.empty()
 
-# Function to resize the uploaded image without cropping
+# Function to resize the uploaded image without cropping and to center it
 def resize_image(image, target_width, target_height):
     # Ensure the image fits within the target dimensions without cropping
     image.thumbnail((target_width, target_height), Image.LANCZOS)
-    return image
+
+    # Create a new blank image with the target dimensions and transparent background
+    new_image = Image.new("RGBA", (target_width, target_height), (255, 255, 255, 0))
+
+    # Calculate position to center the image
+    offset_x = (target_width - image.width) // 2
+    offset_y = (target_height - image.height) // 2
+
+    # Paste the resized image onto the blank image, centered
+    new_image.paste(image, (offset_x, offset_y), image.convert('RGBA'))
+
+    return new_image
 
 # Section: Upload Image
 uploaded_file = st.file_uploader("Add a photo that represents you or your brand. Images should be high resolution for best results.", type=["jpg", "jpeg", "png"])
