@@ -97,14 +97,14 @@ poster_template_path = "template.jpg"
 poster_template = Image.open(poster_template_path)
 
 # Load the cloud image
-cloud_image_path = "cloud.png"
+cloud_image_path = "cloud2.png"
 cloud_image = Image.open(cloud_image_path)
 
 # Section: Event Poster and Details (Side-by-Side Layout)
 col1, col2 = st.columns([1, 1.5])
 
 with col1:
-    st.markdown("### The Great Commission Gathering!!!")
+    st.markdown("### The Great Commission Gathering")
     st.subheader("Personalize your Poster")
     st.write("Make this poster your own by adding an image.")
     st.write("Nov 23, 10:00 AM")
@@ -142,7 +142,7 @@ if uploaded_file:
     resized_photo = resize_image(user_photo, target_width, target_height)
 
     # Resize the cloud image
-    cloud_width, cloud_height = 750, 500
+    cloud_width, cloud_height = 950, 500
     resized_cloud = cloud_image.resize((cloud_width, cloud_height))
 
     # Combine user image with the poster template
