@@ -149,11 +149,11 @@ if uploaded_file:
     final_poster = poster_template.copy()
 
     # Shift user image 10px to the left and place it
-    position = (140 - 10, 140)  # Adjust the position to shift 10 pixels left
+    position = (120, 140)  # Adjust the position to shift 10 pixels left
     final_poster.paste(resized_photo, position, resized_photo.convert('RGBA'))
 
     # Position the cloud image below the user image
-    cloud_position = (position[0], position[1] + target_height)  # Place cloud below the uploaded image
+    cloud_position = (0,140)  # Place cloud below the uploaded image
     final_poster.paste(resized_cloud, cloud_position, resized_cloud.convert('RGBA'))
 
     # Save final poster to BytesIO for previewing and downloading
