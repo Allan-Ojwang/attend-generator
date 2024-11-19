@@ -100,7 +100,7 @@ poster_template = Image.open(poster_template_path)
 col1, col2 = st.columns([1, 1.5])
 
 with col1:
-    st.markdown("### The Great Commission Gathering!!!!!" )
+    st.markdown("### The Great Commission Gathering" )
     st.subheader("Personalize your Poster")
     st.write("Make this poster your own by adding an image.")
     st.write("Nov 23, 10:00 AM")
@@ -118,7 +118,7 @@ if uploaded_file:
 
     # Combine user image with the poster template
     final_poster = poster_template.copy()
-    position = (329, 121)  # Adjust position as needed
+    position = (129, 121)  # Adjust position as needed
     final_poster.paste(user_photo, position)
 
     # Save final poster to BytesIO for previewing and downloading
