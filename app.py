@@ -108,10 +108,10 @@ with col1:
 # Placeholder for the final poster preview in col2
 poster_placeholder = col2.empty()
 
-# Function to resize and crop the uploaded image
-def resize_and_crop(image, target_width, target_height):
-    # Resize image to fit within target dimensions while keeping aspect ratio
-    image = ImageOps.fit(image, (target_width, target_height), method=Image.LANCZOS)
+# Function to resize the uploaded image without cropping
+def resize_image(image, target_width, target_height):
+    # Ensure the image fits within the target dimensions without cropping
+    image.thumbnail((target_width, target_height), Image.LANCZOS)
     return image
 
 # Section: Upload Image
@@ -122,9 +122,9 @@ if uploaded_file:
     # Open and process the uploaded image
     user_photo = Image.open(uploaded_file)
 
-    # Resize and crop user image to fit within a defined target area on the poster
+    # Resize user image to fit within a defined target area on the poster
     target_width, target_height = 350, 400  # Adjust based on the template's space for the image
-    resized_photo = resize_and_crop(user_photo, target_width, target_height)
+    resized_photo = resize_image(user_photo, target_width, target_height)
 
     # Combine user image with the poster template
     final_poster = poster_template.copy()
