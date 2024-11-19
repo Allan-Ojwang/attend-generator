@@ -142,7 +142,7 @@ if uploaded_file:
     resized_photo = resize_image(user_photo, target_width, target_height)
 
     # Resize the cloud image
-    cloud_width, cloud_height = 650, 20
+    cloud_width, cloud_height = 650, 120
     resized_cloud = cloud_image.resize((cloud_width, cloud_height))
 
     # Combine user image with the poster template
