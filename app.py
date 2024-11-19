@@ -100,7 +100,7 @@ poster_template = Image.open(poster_template_path)
 col1, col2 = st.columns([1, 1.5])
 
 with col1:
-    st.markdown("### The Great Commission Gathering!!")
+    st.markdown("### The Great Commission Gathering")
     st.subheader("Personalize your Poster")
     st.write("Make this poster your own by adding an image.")
     st.write("Nov 23, 10:00 AM")
@@ -123,7 +123,7 @@ if uploaded_file:
     user_photo = Image.open(uploaded_file)
 
     # Resize and crop user image to fit within a defined target area on the poster
-    target_width, target_height = 150, 200  # Adjust based on the template's space for the image
+    target_width, target_height = 350, 400  # Adjust based on the template's space for the image
     resized_photo = resize_and_crop(user_photo, target_width, target_height)
 
     # Combine user image with the poster template
