@@ -142,7 +142,7 @@ if uploaded_file:
     resized_photo = resize_image(user_photo, target_width, target_height)
 
     # Resize the cloud image
-    cloud_width, cloud_height = 750, 420
+    cloud_width, cloud_height = 750, 500
     resized_cloud = cloud_image.resize((cloud_width, cloud_height))
 
     # Combine user image with the poster template
@@ -153,7 +153,7 @@ if uploaded_file:
     final_poster.paste(resized_photo, position, resized_photo.convert('RGBA'))
 
     # Position the cloud image below the user image
-    cloud_position = (-20,300)  # Place cloud below the uploaded image
+    cloud_position = (-80,300)  # Place cloud below the uploaded image
     final_poster.paste(resized_cloud, cloud_position, resized_cloud.convert('RGBA'))
 
     # Save final poster to BytesIO for previewing and downloading
