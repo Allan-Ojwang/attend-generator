@@ -93,7 +93,7 @@ def set_background_style():
 set_background_style()
 
 # Load the poster template
-poster_template_path = "poster_template.jpg"  
+poster_template_path = "template.jpg"  
 poster_template = Image.open(poster_template_path)
 
 # Section: Event Poster and Details (Side-by-Side Layout)
