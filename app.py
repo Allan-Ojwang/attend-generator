@@ -1,5 +1,5 @@
 import streamlit as st
-from PIL import Image, ImageDraw
+from PIL import Image
 import base64
 from io import BytesIO
 
@@ -7,7 +7,7 @@ from io import BytesIO
 st.set_page_config(
     page_title="PW Poster Generator",
     layout="wide",
-    page_icon="pw.jpg" 
+    page_icon="pw.jpg"
 )
 
 # Load Poppins font from Google Fonts
@@ -93,11 +93,11 @@ def set_background_style():
 set_background_style()
 
 # Load the poster template
-poster_template_path = "template.jpg"  
+poster_template_path = "template.jpg"
 poster_template = Image.open(poster_template_path)
 
 # Section: Event Poster and Details (Side-by-Side Layout)
-col1, col2 = st.columns([1, 1.5])  
+col1, col2 = st.columns([1, 1.5])
 
 with col1:
     st.markdown("### The Great Commission Gathering")
@@ -111,31 +111,15 @@ poster_placeholder = col2.empty()
 # Section: Upload Image
 uploaded_file = st.file_uploader("Add a photo that represents you or your brand. Images should be high resolution for best results.", type=["jpg", "jpeg", "png"])
 
-# Helper function to crop an image to a circle
-def crop_to_circle(image):
-    # Resize the image to 450x450
-    image = image.resize((445, 445))
-    # Create a mask for the circular crop
-    mask = Image.new("L", (445, 445), 0)
-    draw = ImageDraw.Draw(mask)
-    draw.ellipse((0, 0, 445, 445), fill=255)
-    # Apply the mask to make the image circular
-    result = Image.new("RGBA", (445, 445))
-    result.paste(image, (0, 0), mask)
-    return result
-
 # Check if an image has been uploaded
 if uploaded_file:
     # Open and process the uploaded image
     user_photo = Image.open(uploaded_file)
 
-    # Crop the uploaded image to a circle with 450x450 dimensions
-    circular_photo = crop_to_circle(user_photo)
-
     # Combine user image with the poster template
     final_poster = poster_template.copy()
     position = (329, 121)  # Adjust position as needed
-    final_poster.paste(circular_photo, position, circular_photo)
+    final_poster.paste(user_photo, position)
 
     # Save final poster to BytesIO for previewing and downloading
     buffered = BytesIO()
