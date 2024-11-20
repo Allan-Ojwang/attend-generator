@@ -104,7 +104,7 @@ cloud_image = Image.open(cloud_image_path)
 col1, col2 = st.columns([1, 1.5])
 
 with col1:
-    st.markdown("### The Great Commission Gathering")
+    st.markdown("### The Great Commission Gathering!!")
     st.subheader("Personalize your Poster")
     st.write("Make this poster your own by adding an image.")
     st.write("Nov 23, 10:00 AM")
@@ -114,18 +114,37 @@ poster_placeholder = col2.empty()
 
 # Function to resize the uploaded image without cropping and to center it
 def resize_image(image, target_width, target_height):
-    # Ensure the image fits within the target dimensions without cropping
-    image.thumbnail((target_width, target_height), Image.LANCZOS)
+    """
+    Resize the uploaded image to fit within the target dimensions, prioritizing
+    a portrait orientation and maximizing its size without distortion.
+    """
+    # Check if the image is portrait-oriented
+    is_portrait = image.height > image.width
+
+    # Resize based on orientation
+    if is_portrait:
+        # Fit height first for portraits
+        scale_factor = target_height / image.height
+    else:
+        # Fit width first for landscape or square
+        scale_factor = target_width / image.width
+
+    # Calculate new dimensions
+    new_width = int(image.width * scale_factor)
+    new_height = int(image.height * scale_factor)
+
+    # Resize the image while maintaining aspect ratio
+    resized_image = image.resize((new_width, new_height), Image.LANCZOS)
 
     # Create a new blank image with the target dimensions and transparent background
     new_image = Image.new("RGBA", (target_width, target_height), (255, 255, 255, 0))
 
-    # Calculate position to center the image
-    offset_x = (target_width - image.width) // 2
-    offset_y = (target_height - image.height) // 2
+    # Calculate position to center the resized image
+    offset_x = (target_width - new_width) // 2
+    offset_y = (target_height - new_height) // 2
 
-    # Paste the resized image onto the blank image, centered
-    new_image.paste(image, (offset_x, offset_y), image.convert('RGBA'))
+    # Paste the resized image onto the blank canvas
+    new_image.paste(resized_image, (offset_x, offset_y), resized_image.convert("RGBA"))
 
     return new_image
 
