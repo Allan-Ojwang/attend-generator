@@ -47,11 +47,9 @@ set_background_style()
 
 # Load assets
 poster_template_path = "template.jpg"
-cloud_image_path = "cloud2.png"
 overlay_image_path = "overlay.png"
 
 poster_template = Image.open(poster_template_path).convert("RGBA")
-cloud_image = Image.open(cloud_image_path).convert("RGBA")
 overlay_image = Image.open(overlay_image_path).convert("RGBA")
 
 # Section: Event Poster Details
@@ -66,7 +64,7 @@ with col1:
 # Placeholder for poster preview
 poster_placeholder = col2.empty()
 
-# Function to resize image to fit within a target area
+# Function to resize image to fit within a smaller area
 def resize_image(image, target_width, target_height):
     """
     Resize the uploaded image to fit within the target dimensions while maximizing size.
@@ -92,18 +90,20 @@ uploaded_file = st.file_uploader("Upload an image (JPG/PNG)", type=["jpg", "jpeg
 if uploaded_file:
     user_photo = Image.open(uploaded_file).convert("RGBA")
 
-    # Resize the uploaded image
-    target_width, target_height = poster_template.width, poster_template.height
+    # Resize the uploaded image to a smaller area
+    target_width, target_height = poster_template.width // 2, poster_template.height // 2
     resized_photo = resize_image(user_photo, target_width, target_height)
 
-    # Resize cloud and overlay images to match the template
-    resized_cloud = cloud_image.resize(poster_template.size, Image.LANCZOS)
+    # Resize overlay to match the template
     resized_overlay = overlay_image.resize(poster_template.size, Image.LANCZOS)
 
     # Combine layers
     final_poster = poster_template.copy()
-    final_poster.paste(resized_photo, (0, 0), resized_photo)
-    final_poster.paste(resized_cloud, (0, 0), resized_cloud)
+    # Place the uploaded image in the center of the template
+    offset_x = (poster_template.width - target_width) // 2
+    offset_y = (poster_template.height - target_height) // 2
+    final_poster.paste(resized_photo, (offset_x, offset_y), resized_photo)
+    # Add the overlay
     final_poster.paste(resized_overlay, (0, 0), resized_overlay)
 
     # Save the final image to a buffer
@@ -128,7 +128,7 @@ if uploaded_file:
     st.markdown('</div>', unsafe_allow_html=True)
 
 else:
-    # Display the template if no image has been uploaded
+    # Display the template if no image is uploaded
     poster_placeholder.markdown(
         f'<img src="data:image/png;base64,{base64.b64encode(open(poster_template_path, "rb").read()).decode()}" alt="Poster Template" style="width:100%;border-radius:8px;">',
         unsafe_allow_html=True,
