@@ -23,33 +23,18 @@ def set_background_style():
     st.markdown(
         """
         <style>
-        /* Main app background color */
         .stApp {
-            background-color: #1c1e21; /* Dark background */
+            background-color: #1c1e21;
             padding-top: 20px;
             font-family: 'Poppins', sans-serif;
             color: white;
         }
-        
-        /* Event poster container */
-        .event-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: #2b2d31;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
 
-        /* Text color */
         .stMarkdown, .stButton > button {
             color: white;
             font-family: 'Poppins', sans-serif;
         }
 
-        /* Upload image section */
         .upload-section {
             background-color: #2b2d31;
             border: 2px dashed #4a4a4a;
@@ -58,7 +43,6 @@ def set_background_style():
             text-align: center;
         }
 
-        /* Upload button styling */
         .stFileUploader label {
             background-color: #3a3b3d;
             padding: 10px 20px;
@@ -68,7 +52,6 @@ def set_background_style():
             cursor: pointer;
         }
 
-        /* Save poster button */
         .save-button button {
             background-color: #007bff !important;
             color: white !important;
@@ -78,7 +61,6 @@ def set_background_style():
             padding: 10px;
         }
 
-        /* Custom height for the poster template image in col2 */
         .poster-image {
             height: 300px; 
             object-fit: contain;
@@ -100,34 +82,27 @@ poster_template = Image.open(poster_template_path)
 cloud_image_path = "cloud2.png"
 cloud_image = Image.open(cloud_image_path)
 
-# Section: Event Poster and Details (Side-by-Side Layout)
+# Section: Event Poster and Details
 col1, col2 = st.columns([1, 1.5])
 
 with col1:
-    st.markdown("### The Great Commission Gathering!!")
+    st.markdown("### The Great Commission Gathering")
     st.subheader("Personalize your Poster")
     st.write("Make this poster your own by adding an image.")
     st.write("Nov 23, 10:00 AM")
 
-# Placeholder for the final poster preview in col2
+# Placeholder for the final poster preview
 poster_placeholder = col2.empty()
 
-# Function to resize the uploaded image without cropping and to center it
+# Function to resize image to fit within a target area
 def resize_image(image, target_width, target_height):
     """
-    Resize the uploaded image to fit within the target dimensions, prioritizing
-    a portrait orientation and maximizing its size without distortion.
+    Resize the uploaded image to fit within the target dimensions while maximizing its size.
     """
-    # Check if the image is portrait-oriented
-    is_portrait = image.height > image.width
-
-    # Resize based on orientation
-    if is_portrait:
-        # Fit height first for portraits
-        scale_factor = target_height / image.height
-    else:
-        # Fit width first for landscape or square
-        scale_factor = target_width / image.width
+    # Determine the scale factor to fit within target dimensions
+    width_ratio = target_width / image.width
+    height_ratio = target_height / image.height
+    scale_factor = min(width_ratio, height_ratio)
 
     # Calculate new dimensions
     new_width = int(image.width * scale_factor)
@@ -136,14 +111,14 @@ def resize_image(image, target_width, target_height):
     # Resize the image while maintaining aspect ratio
     resized_image = image.resize((new_width, new_height), Image.LANCZOS)
 
-    # Create a new blank image with the target dimensions and transparent background
+    # Create a blank canvas with target dimensions
     new_image = Image.new("RGBA", (target_width, target_height), (255, 255, 255, 0))
 
-    # Calculate position to center the resized image
+    # Calculate centering offsets
     offset_x = (target_width - new_width) // 2
     offset_y = (target_height - new_height) // 2
 
-    # Paste the resized image onto the blank canvas
+    # Paste resized image onto the blank canvas
     new_image.paste(resized_image, (offset_x, offset_y), resized_image.convert("RGBA"))
 
     return new_image
@@ -156,8 +131,8 @@ if uploaded_file:
     # Open and process the uploaded image
     user_photo = Image.open(uploaded_file)
 
-    # Resize user image to fit within a defined target area on the poster
-    target_width, target_height = 450, 350  # Adjust based on the template's space for the image
+    # Resize user image to fit within the space on the poster
+    target_width, target_height = 550, 550  # Larger width and height
     resized_photo = resize_image(user_photo, target_width, target_height)
 
     # Resize the cloud image
@@ -167,26 +142,26 @@ if uploaded_file:
     # Combine user image with the poster template
     final_poster = poster_template.copy()
 
-    # Shift user image 10px to the left and place it
-    position = (120, 140)  # Adjust the position to shift 10 pixels left
+    # Place the user image
+    position = (120, 140)  # Adjust the position as needed
     final_poster.paste(resized_photo, position, resized_photo.convert('RGBA'))
 
-    # Position the cloud image below the user image
-    cloud_position = (-100,280)  # Place cloud below the uploaded image
+    # Place the cloud image
+    cloud_position = (-100, 280)  # Position of the cloud
     final_poster.paste(resized_cloud, cloud_position, resized_cloud.convert('RGBA'))
 
-    # Save final poster to BytesIO for previewing and downloading
+    # Save the final poster
     buffered = BytesIO()
     final_poster.save(buffered, format="PNG")
     img_str = base64.b64encode(buffered.getvalue()).decode()
 
-    # Update the placeholder with the final preview image
+    # Display the final poster preview
     poster_placeholder.markdown(
         f'<img class="poster-image" src="data:image/png;base64,{img_str}" alt="Customized Poster">',
         unsafe_allow_html=True,
     )
 
-    # Display the "Save Poster" download button below the poster
+    # Display the "Save Poster" download button
     st.markdown('<div class="save-button">', unsafe_allow_html=True)
     st.download_button(
         label="Save Poster",
@@ -197,7 +172,7 @@ if uploaded_file:
     st.markdown('</div>', unsafe_allow_html=True)
 
 else:
-    # Display the initial template if no image has been uploaded
+    # Display the template if no image is uploaded
     poster_placeholder.markdown(
         f'<img class="poster-image" src="data:image/jpg;base64,{base64.b64encode(open(poster_template_path, "rb").read()).decode()}" alt="Event Poster">',
         unsafe_allow_html=True,
