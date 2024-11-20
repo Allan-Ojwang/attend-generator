@@ -138,7 +138,7 @@ if uploaded_file:
     user_photo = Image.open(uploaded_file)
 
     # Resize user image to fit within a defined target area on the poster
-    target_width, target_height = 650, 350  # Adjust based on the template's space for the image
+    target_width, target_height = 450, 350  # Adjust based on the template's space for the image
     resized_photo = resize_image(user_photo, target_width, target_height)
 
     # Resize the cloud image
