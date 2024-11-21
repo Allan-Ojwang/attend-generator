@@ -25,9 +25,12 @@ def set_background_style():
         <style>
         .stApp {
             background-color: #1c1e21;
-            padding-top: 20px;
+            padding: 0px; /* Remove top padding */
             font-family: 'Poppins', sans-serif;
             color: white;
+        }
+        .stApp div:first-child {
+            padding-top: 0px; /* Remove top margin/padding of the first element */
         }
         .save-button button {
             background-color: #007bff !important;
@@ -36,6 +39,10 @@ def set_background_style():
             font-size: 16px !important;
             width: 100%;
             padding: 10px;
+        }
+        .poster-image {
+            width: 100%; /* Ensure full width for the poster */
+            border-radius: 8px;
         }
         </style>
         """,
@@ -52,17 +59,14 @@ overlay_image_path = "overlay.png"
 poster_template = Image.open(poster_template_path).convert("RGBA")
 overlay_image = Image.open(overlay_image_path).convert("RGBA")
 
-# Section: Event Poster Details
-col1, col2 = st.columns([1, 1.5])
+# Event Poster Details (placed above the poster)
+st.markdown("### The Great Commission Gathering")
+st.subheader("Personalize your Poster")
+st.write("Make this poster your own by adding an image.")
+st.write("Nov 23, 10:00 AM")
 
-with col1:
-    st.markdown("### The Great Commission Gathering")
-    st.subheader("Personalize your Poster")
-    st.write("Make this poster your own by adding an image.")
-    st.write("Nov 23, 10:00 AM")
-
-# Placeholder for poster preview
-poster_placeholder = col2.empty()
+# Placeholder for poster preview (full width)
+poster_placeholder = st.empty()
 
 # Function to resize image to fit within a smaller area
 def resize_image(image, target_width, target_height):
@@ -113,7 +117,7 @@ if uploaded_file:
 
     # Display the poster preview
     poster_placeholder.markdown(
-        f'<img src="data:image/png;base64,{img_str}" alt="Customized Poster" style="width:100%;border-radius:8px;">',
+        f'<img src="data:image/png;base64,{img_str}" alt="Customized Poster" class="poster-image">',
         unsafe_allow_html=True,
     )
 
@@ -130,6 +134,6 @@ if uploaded_file:
 else:
     # Display the template if no image is uploaded
     poster_placeholder.markdown(
-        f'<img src="data:image/png;base64,{base64.b64encode(open(poster_template_path, "rb").read()).decode()}" alt="Poster Template" style="width:100%;border-radius:8px;">',
+        f'<img src="data:image/png;base64,{base64.b64encode(open(poster_template_path, "rb").read()).decode()}" alt="Poster Template" class="poster-image">',
         unsafe_allow_html=True,
     )
