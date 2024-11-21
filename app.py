@@ -62,9 +62,10 @@ set_background_style()
 # Load assets
 poster_template_path = "template.jpg"
 overlay_image_path = "overlay.png"
-
+bg_image_path = "bg.jpg"
 poster_template = Image.open(poster_template_path).convert("RGBA")
 overlay_image = Image.open(overlay_image_path).convert("RGBA")
+bg_image = Image.open(bg_image_path).convert("RGBA")
 
 # Event Poster Details (placed above the poster)
 st.markdown("### The Great Commission Gathering")
@@ -139,8 +140,8 @@ if uploaded_file:
     st.markdown('</div>', unsafe_allow_html=True)
 
 else:
-    # Display the template if no image is uploaded
+    # Display the bg_image if no image is uploaded
     poster_placeholder.markdown(
-        f'<img src="data:image/png;base64,{base64.b64encode(open(poster_template_path, "rb").read()).decode()}" alt="Poster Template" class="poster-image">',
+        f'<img src="data:image/png;base64,{base64.b64encode(open(bg_image_path, "rb").read()).decode()}" alt="Background Image" class="poster-image">',
         unsafe_allow_html=True,
     )
