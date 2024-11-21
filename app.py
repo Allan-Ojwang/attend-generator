@@ -30,7 +30,7 @@ def set_background_style():
             color: white;
         }
         .stApp div:first-child {
-            padding-top: 0px; /* Remove top margin/padding of the first element */
+            padding-top: 5px; /* Remove top margin/padding of the first element */
         }
         .save-button button {
             background-color: #007bff !important;
