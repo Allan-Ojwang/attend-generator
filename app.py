@@ -30,7 +30,7 @@ def set_background_style():
             color: white;
         }
         .stApp div:first-child {
-            padding-top: 1px; /* Add top padding */
+            padding-top: 2px; /* Add top padding */
         }
         .stMarkdown h3, .stMarkdown h4, .stMarkdown p {
             margin-bottom: 0px; /* Remove vertical padding between text elements */
