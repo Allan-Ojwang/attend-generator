@@ -25,12 +25,19 @@ def set_background_style():
         <style>
         .stApp {
             background-color: #1c1e21;
-            padding: 0px; /* Remove top padding */
+            padding-top: 5px; /* Set top padding */
             font-family: 'Poppins', sans-serif;
             color: white;
         }
         .stApp div:first-child {
-            padding-top: 5px; /* Remove top margin/padding of the first element */
+            padding-top: 5px; /* Add top padding */
+        }
+        .stMarkdown h3, .stMarkdown h4, .stMarkdown p {
+            margin-bottom: 0px; /* Remove vertical padding between text elements */
+            padding-bottom: 0px; /* Ensure no extra bottom padding */
+        }
+        .stMarkdown h3 {
+            margin-top: 0px; /* Remove top margin from the title */
         }
         .save-button button {
             background-color: #007bff !important;
