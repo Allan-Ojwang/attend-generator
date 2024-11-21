@@ -25,7 +25,7 @@ def set_background_style():
         <style>
         .stApp {
             background-color: #1c1e21;
-            padding-top: 15px; /* Set top padding */
+            padding-top: 0px; /* Set top padding */
             font-family: 'Poppins', sans-serif;
             color: white;
         }
